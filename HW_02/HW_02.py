@@ -1,5 +1,8 @@
 # HW_02.py
 
+import pathlib
+
+
 def get_cats_info(path: str) -> list:
     """
     Print a list of dictionaries with pet data based on the data read
@@ -10,8 +13,8 @@ def get_cats_info(path: str) -> list:
     """
     cat_list = []
 
-    if not isinstance(path, str):
-        print(f'Invalid file path: path must be a string: {path}')
+    if not pathlib.Path(path).is_file():
+        print(f'Invalid file path or file format: {path}')
         return cat_list
 
     try:
@@ -27,9 +30,12 @@ def get_cats_info(path: str) -> list:
                     continue
         return cat_list
     except FileNotFoundError:
-        print(f'File not found: {file}')
+        print(f'File not found: {path}')
         return cat_list
 
 
-cats_info = get_cats_info('cats_file.txt')
-print(cats_info)
+try:
+    cats_info = get_cats_info('cats_file.txt')
+    print(cats_info)
+except TypeError:
+    print(f'Path not specified')
